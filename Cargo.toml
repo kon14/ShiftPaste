@@ -1,0 +1,21 @@
+[package]
+name = "ShiftPaste"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.7.5", features = ["macros"] }
+base64 = "0.22.1"
+chrono = { version = "0.4.38", features = ["serde"] }
+dotenv = "0.15.0"
+log = "0.4.22"
+qrcode = "0.14.1"
+serde = "1.0.204"
+serde_json = "1.0.120"
+sqlx = { version = "0.8.2", features = ["postgres", "uuid", "runtime-tokio", "chrono"] }
+thiserror = "1.0.63"
+tokio = { version = "1.38.0", features = ["macros", "rt-multi-thread"] }
+utoipa = { version = "5.1.1", features = ["axum_extras", "preserve_order", "preserve_path_order", "uuid", "chrono"] }
+utoipa-swagger-ui = { version = "8.0.1", features = ["axum", "debug-embed"] }
+uuid = { version = "1.10.0", features = ["serde"] }
+env_logger = "0.11.5"

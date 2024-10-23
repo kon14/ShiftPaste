@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        UPDATE snippets\n        SET\n            archived = true\n        WHERE id = $1 AND archived = false\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "841ed847d46f7b49c4c2c53246419fa97f8f9fe9605995c3868137bb7a66ff5c"
+}

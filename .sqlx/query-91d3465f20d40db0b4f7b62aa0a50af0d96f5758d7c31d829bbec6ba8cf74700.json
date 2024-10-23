@@ -1,0 +1,58 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            id,\n            variant as \"variant!: SnippetVariant\",\n            archived,\n            created_at,\n            updated_at\n        FROM snippets\n        WHERE\n            ($3::boolean IS NULL OR archived = $3::boolean)\n        ORDER BY id ASC\n        OFFSET $1\n        LIMIT $2\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "variant!: SnippetVariant",
+        "type_info": {
+          "Custom": {
+            "name": "snippet_variant",
+            "kind": {
+              "Enum": [
+                "TEXT",
+                "URL"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "archived",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 3,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int8",
+        "Int8",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "91d3465f20d40db0b4f7b62aa0a50af0d96f5758d7c31d829bbec6ba8cf74700"
+}

@@ -1,0 +1,19 @@
+# Rust
+/target
+
+# Environment Variables
+/.env
+
+# IDE
+/.idea
+/.vscode
+
+# SQL
+/migrations
+
+# Git
+/.gitignore
+
+# Documentation
+**/*.md
+/examples

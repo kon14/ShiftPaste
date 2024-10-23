@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO snippets_data_text (\n            snippet_id,\n            text\n        )\n        VALUES ($1, $2)\n        RETURNING\n            snippet_id,\n            text\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "snippet_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "text",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "19ba0dee3a2cdb2ec1922cbaa701d1e05419c1bd0474324aa294ad018237ef43"
+}

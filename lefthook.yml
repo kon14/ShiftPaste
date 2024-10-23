@@ -1,0 +1,8 @@
+output:
+  - failure
+pre-commit:
+  parallel: true
+  commands:
+    cargo_fmt:
+      run: cargo fmt -- --check
+

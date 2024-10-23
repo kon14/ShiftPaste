@@ -1,0 +1,9 @@
+# Rust
+/target
+
+# Environment Variables
+/.env
+
+# IDE
+/.idea
+/.vscode

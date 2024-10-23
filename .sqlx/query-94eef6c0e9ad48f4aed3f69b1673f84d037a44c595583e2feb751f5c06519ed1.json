@@ -1,0 +1,66 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO snippets (\n            variant\n        )\n        VALUES ($1)\n        RETURNING\n            id,\n            variant as \"variant!: SnippetVariant\",\n            archived,\n            created_at,\n            updated_at\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "variant!: SnippetVariant",
+        "type_info": {
+          "Custom": {
+            "name": "snippet_variant",
+            "kind": {
+              "Enum": [
+                "TEXT",
+                "URL"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "archived",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 3,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        {
+          "Custom": {
+            "name": "snippet_variant",
+            "kind": {
+              "Enum": [
+                "TEXT",
+                "URL"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "94eef6c0e9ad48f4aed3f69b1673f84d037a44c595583e2feb751f5c06519ed1"
+}

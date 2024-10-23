@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        DELETE FROM snippets_data_text\n        WHERE snippet_id = $1\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "342bb0652a0d21d5c45caef1bd2913221bacdfe538ba44908f2fdabdcbceda9e"
+}
