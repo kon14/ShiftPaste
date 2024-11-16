@@ -11,7 +11,7 @@ pub struct GetSnippetDataUrlDbResponse {
 
 pub async fn get_snippet_data_url<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
 ) -> Result<GetSnippetDataUrlDbResponse, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve url snippet data!";
 

@@ -28,6 +28,6 @@ pub async fn get_snippet(
 ) -> Result<Json<Snippet>, AppError> {
     let AppState { db } = state;
 
-    let snippet = dmn::snippets::get_snippet(&db, &snippet_id).await?;
+    let snippet = dmn::snippets::get_snippet(&db, snippet_id).await?;
     Ok(Json(snippet))
 }

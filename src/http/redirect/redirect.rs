@@ -32,7 +32,7 @@ pub async fn redirect(
 ) -> Result<Redirect, AppError> {
     let AppState { db } = state;
 
-    let snippet = dmn::snippets::get_snippet(&db, &snippet_id).await?;
+    let snippet = dmn::snippets::get_snippet(&db, snippet_id).await?;
 
     let redirect_url = match snippet.data {
         SnippetData::URL(data) => data.url,

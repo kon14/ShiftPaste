@@ -6,7 +6,7 @@ use uuid::Uuid;
 use crate::db;
 use crate::prelude::*;
 
-pub async fn generate_qr(db: &PgPool, snippet_id: &Uuid) -> Result<String, AppError> {
+pub async fn generate_qr(db: &PgPool, snippet_id: Uuid) -> Result<String, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to generate QR code for snippet!";
     const API_REDIRECT_PATH: &str = "/redirect";
     const QR_MIN_PIXELS: u32 = 200;

@@ -34,7 +34,7 @@ pub async fn patch_snippet(
 ) -> Result<Json<Snippet>, AppError> {
     let AppState { db } = state;
 
-    let snippet = dmn::snippets::patch_snippet(&db, &snippet_id, payload.into()).await?;
+    let snippet = dmn::snippets::patch_snippet(&db, snippet_id, payload.into()).await?;
     Ok(Json(snippet))
 }
 

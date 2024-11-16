@@ -15,7 +15,7 @@ pub struct PatchSnippetDbResponse {
 
 pub async fn patch_snippet<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
     variant: SnippetVariant,
 ) -> Result<PatchSnippetDbResponse, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to patch snippet!";

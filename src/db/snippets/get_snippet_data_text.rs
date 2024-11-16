@@ -11,7 +11,7 @@ pub struct GetSnippetDataTextDbResponse {
 
 pub async fn get_snippet_data_text<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
 ) -> Result<GetSnippetDataTextDbResponse, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve text snippet data!";
 

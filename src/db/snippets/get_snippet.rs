@@ -15,7 +15,7 @@ pub struct GetSnippetDbResponse {
 
 pub async fn get_snippet<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
     archived_filter: Option<bool>,
 ) -> Result<GetSnippetDbResponse, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve snippet!";

@@ -1,4 +1,5 @@
 mod archive_snippet;
+mod archive_user_snippets;
 mod create_snippet;
 mod create_snippet_data_text;
 mod create_snippet_data_url;
@@ -16,6 +17,7 @@ mod patch_snippet_data_text;
 mod patch_snippet_data_url;
 
 pub use archive_snippet::*;
+pub use archive_user_snippets::*;
 pub use create_snippet::*;
 pub use create_snippet_data_text::*;
 pub use create_snippet_data_url::*;

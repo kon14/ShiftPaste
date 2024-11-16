@@ -17,6 +17,7 @@ async fn main() {
     let db_url = common::utils::get_database_url();
     let api_port = common::utils::get_api_port();
     let _ = common::utils::get_api_base_url();
+    let _ = common::utils::get_auth_jwt_secret();
 
     let db = PgPoolOptions::new()
         .max_connections(5)
@@ -25,7 +26,7 @@ async fn main() {
         .expect("Failed to connect to database!");
 
     let state = AppState { db };
-    let app = http::build_router().with_state(state);
+    let app = http::build_router(state.clone()).with_state(state);
 
     let server_addr = format!("0.0.0.0:{api_port}");
     let listener = tokio::net::TcpListener::bind(&server_addr).await.unwrap();

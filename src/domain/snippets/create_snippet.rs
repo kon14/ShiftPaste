@@ -23,12 +23,12 @@ pub async fn create_snippet(
     let data: SnippetData = match payload.data {
         SnippetData::Text(data) => {
             let text_data =
-                db::snippets::create_snippet_data_text(tx.as_mut(), &snippet.id, data).await?;
+                db::snippets::create_snippet_data_text(tx.as_mut(), snippet.id, data).await?;
             text_data.into()
         }
         SnippetData::URL(data) => {
             let url_data =
-                db::snippets::create_snippet_data_url(tx.as_mut(), &snippet.id, data).await?;
+                db::snippets::create_snippet_data_url(tx.as_mut(), snippet.id, data).await?;
             url_data.into()
         }
     };

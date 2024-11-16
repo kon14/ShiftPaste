@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-axum = { version = "0.7.5", features = ["macros"] }
+axum = { version = "0.7.7", features = ["macros"] }
+axum-extra = { version = "0.9.6", features = ["typed-header"]}
 base64 = "0.22.1"
 chrono = { version = "0.4.38", features = ["serde"] }
 dotenv = "0.15.0"
@@ -19,3 +20,8 @@ utoipa = { version = "5.1.1", features = ["axum_extras", "preserve_order", "pres
 utoipa-swagger-ui = { version = "8.0.1", features = ["axum", "debug-embed"] }
 uuid = { version = "1.10.0", features = ["serde"] }
 env_logger = "0.11.5"
+regex = "1.11.1"
+bcrypt = "0.15.1"
+jsonwebtoken = "9.3.0"
+tower = "0.5.1"
+tower-http = { version = "0.6.1" }

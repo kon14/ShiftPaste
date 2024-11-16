@@ -5,13 +5,12 @@ use crate::domain::types::{SnippetData, UrlSnippet};
 use crate::prelude::*;
 
 pub struct PatchSnippetDataUrlDbResponse {
-    pub snippet_id: Uuid,
     pub url: String,
 }
 
 pub async fn patch_snippet_data_url<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
     data: UrlSnippet,
 ) -> Result<PatchSnippetDataUrlDbResponse, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve url snippet data!";
@@ -24,7 +23,6 @@ pub async fn patch_snippet_data_url<'a>(
             url = $2
         WHERE snippet_id = $1
         RETURNING
-            snippet_id,
             url
         "#,
         snippet_id,

@@ -44,7 +44,7 @@ pub async fn generate_qr(
 
     let AppState { db } = state;
 
-    let qr_img = dmn::qr::generate_qr(&db, &snippet_id).await?;
+    let qr_img = dmn::qr::generate_qr(&db, snippet_id).await?;
 
     let content_type = "image/svg+xml";
     if let Some(true) = query.download {

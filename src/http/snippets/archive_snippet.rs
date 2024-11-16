@@ -24,6 +24,6 @@ pub async fn archive_snippet(
 ) -> Result<String, AppError> {
     let AppState { db } = state;
 
-    dmn::snippets::archive_snippet(&db, &snippet_id).await?;
+    dmn::snippets::archive_snippet(&db, snippet_id).await?;
     Ok(format!("Snippet ({}) archived successfully.", snippet_id))
 }

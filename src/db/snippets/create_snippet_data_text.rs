@@ -11,7 +11,7 @@ pub struct CreateSnippetDataTextDbResponse {
 
 pub async fn create_snippet_data_text<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
     data: TextSnippet,
 ) -> Result<CreateSnippetDataTextDbResponse, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to create snippet_data_text!";

@@ -5,7 +5,7 @@ use crate::prelude::*;
 
 pub async fn delete_snippet_data_url<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
 ) -> Result<(), AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to delete url snippet data!";
 

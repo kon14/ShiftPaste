@@ -34,7 +34,11 @@ docker run --name shiftpaste-postgres -p 5432:5432 -e POSTGRES_DB="shiftpaste" -
 DATABASE_URL="postgres://postgres@localhost:5432/shiftpaste" sqlx migrate run
 
 # Run ShiftPaste
-docker run --name=shiftpaste -p 4000:4000 -e DATABASE_URL="postgres://postgres@host.docker.internal:5432/shiftpaste" -e API_BASE_URL="http://localhost:4000" -d shiftpaste
+docker run --name=shiftpaste -p 4000:4000 \
+-e DATABASE_URL="postgres://postgres@host.docker.internal:5432/shiftpaste" \
+-e API_BASE_URL="http://localhost:4000" \
+-e AUTH_JWT_SECRET="7h3 c4k3 15 4 l13" \
+-d shiftpaste
 
 # Navigate to Swagger UI (on Linux)
 xdg-open "http://localhost:4000/swagger/"
@@ -44,13 +48,17 @@ xdg-open "http://localhost:4000/swagger/"
 
 ## Environment Variables 📃 <a name="env-vars"></a>
 
-|        Variable        | Description                                                                                                                                                                                                          | Required |         Default          |            Example             |
-|:----------------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:------------------------:|:------------------------------:|
-|     `DATABASE_URL`     | The connection string URL for your PostgreSQL database.                                                                                                                                                              |  `True`  |            —             | `postgres://localhost:5432/db` |
-|       `API_PORT`       | The port to be used by the HTTP server.                                                                                                                                                                              | `False`  |          `4000`          |             `8080`             |
-|     `API_BASE_URL`     | A public URL pointing to the backend API's root path.                                                                                                                                                                |  `True`  |            —             |   `https://foo.bar.baz/api`    |
-| `APP_SNIPPET_VIEW_URL` | A public URL pointing to the frontend app's snippet preview page.<br />May be used to customize snippet redirections.<br />Frontend app is expected to handle `GET` requests at `$APP_SNIPPET_VIEW_URL/:snippet_id`. | `False`  | `$API_BASE_URL/snippets` | `https://foo.bar.baz/snippets` |
-|       `RUST_LOG`       | Specifies the desired logging level.<br />Refer to the [env_logger](https://docs.rs/env_logger/latest/env_logger/) documentation for details.                                                                        | `False`  |          `error`         |            `info`              |
+|              Variable              | Description                                                                                                                                                                                                          | Required |         Default          |            Example             |
+|:----------------------------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:------------------------:|:------------------------------:|
+|           `DATABASE_URL`           | The connection string URL for your PostgreSQL database.                                                                                                                                                              |  `True`  |            —             | `postgres://localhost:5432/db` |
+|             `API_PORT`             | The port to be used by the HTTP server.                                                                                                                                                                              | `False`  |          `4000`          |             `8080`             |
+|           `API_BASE_URL`           | A public URL pointing to the backend API's root path.                                                                                                                                                                |  `True`  |            —             |   `https://foo.bar.baz/api`    |
+|       `APP_SNIPPET_VIEW_URL`       | A public URL pointing to the frontend app's snippet preview page.<br />May be used to customize snippet redirections.<br />Frontend app is expected to handle `GET` requests at `$APP_SNIPPET_VIEW_URL/:snippet_id`. | `False`  | `$API_BASE_URL/snippets` | `https://foo.bar.baz/snippets` |
+|             `RUST_LOG`             | Specifies the desired logging level.<br />Refer to the [env_logger](https://docs.rs/env_logger/latest/env_logger/) documentation for details.                                                                        | `False`  |         `error`          |             `info`             |
+|         `AUTH_JWT_SECRET`          | The secret to be used for JWT authentication token encoding/decoding.                                                                                                                                                |  `True`  |            —             |      `7h3 c4k3 15 4 l13`       |
+| `AUTH_ACCESS_TOKEN_DURATION_SECS`  | Duration for authentication access token validity (in seconds).                                                                                                                                                      | `False`  |   `5 * 60` (5 minutes)   |             `300`              |
+| `AUTH_REFRESH_TOKEN_DURATION_SECS` | Duration for authentication refresh token validity (in seconds).                                                                                                                                                     | `False`  |  `24 * 60 * 60` (1 day)  |            `86400`             |
+
 
 ---
 
@@ -74,7 +82,10 @@ DATABASE_URL="postgres://postgres@localhost:5432/shiftpaste" sqlx migrate run
 cargo build
 
 # Run ShiftPaste
-DATABASE_URL="postgres://postgres@localhost:5432/shiftpaste" API_BASE_URL="http://localhost:4000" cargo run
+DATABASE_URL="postgres://postgres@localhost:5432/shiftpaste" \
+API_BASE_URL="http://localhost:4000" \
+AUTH_JWT_SECRET="7h3 c4k3 15 4 l13" \
+cargo run
 
 # Navigate to Swagger UI (on Linux)
 xdg-open "http://localhost:4000/swagger/"

@@ -5,7 +5,7 @@ use crate::prelude::*;
 
 pub async fn archive_snippet<'a>(
     db: impl PgExecutor<'a>,
-    snippet_id: &Uuid,
+    snippet_id: Uuid,
 ) -> Result<(), AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to archive snippet!";
 

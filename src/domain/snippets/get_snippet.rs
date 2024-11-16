@@ -6,7 +6,7 @@ use crate::db::types::SnippetVariant;
 use crate::domain::types::{Snippet, SnippetData};
 use crate::prelude::*;
 
-pub async fn get_snippet(db: &PgPool, snippet_id: &Uuid) -> Result<Snippet, AppError> {
+pub async fn get_snippet(db: &PgPool, snippet_id: Uuid) -> Result<Snippet, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve snippet!";
 
     let mut tx: Transaction<Postgres> = db
@@ -16,11 +16,11 @@ pub async fn get_snippet(db: &PgPool, snippet_id: &Uuid) -> Result<Snippet, AppE
     let snippet = db::snippets::get_snippet(tx.as_mut(), snippet_id, Some(false)).await?;
     let data: SnippetData = match snippet.variant {
         SnippetVariant::Text => {
-            let text_data = db::snippets::get_snippet_data_text(tx.as_mut(), &snippet.id).await?;
+            let text_data = db::snippets::get_snippet_data_text(tx.as_mut(), snippet.id).await?;
             text_data.into()
         }
         SnippetVariant::URL => {
-            let url_data = db::snippets::get_snippet_data_url(tx.as_mut(), &snippet.id).await?;
+            let url_data = db::snippets::get_snippet_data_url(tx.as_mut(), snippet.id).await?;
             url_data.into()
         }
     };
