@@ -2,14 +2,14 @@ use chrono::Timelike; // TODO: UniqueUserIdentifier
 use sqlx::PgPool;
 
 use crate::db;
-use crate::domain::types::{JsonWebToken, UniqueAccessTokenIdentifier};
+use crate::domain::types::{JsonWebTokenData, UniqueAccessTokenIdentifier};
 use crate::prelude::*;
 
-pub async fn authenticate(db: &PgPool, access_token: &str) -> Result<JsonWebToken, AppError> {
+pub async fn authenticate(db: &PgPool, access_token: &str) -> Result<JsonWebTokenData, AppError> {
     const UNAUTHORIZED_ERR_STR: &str = "Failed to authenticate user!";
 
     let token_id = UniqueAccessTokenIdentifier::Jwt(access_token.to_string());
-    let req_access_token = JsonWebToken::decode(access_token).map_err(|err| {
+    let req_access_token = JsonWebTokenData::decode(access_token).map_err(|err| {
         let decode_err = match &err.private_info {
             Some(private_info) => format!("{} {}", err.public_info, private_info),
             None => err.public_info.clone(),

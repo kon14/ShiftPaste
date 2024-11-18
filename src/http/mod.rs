@@ -22,7 +22,8 @@ use crate::common::state::AppState;
         snippets::patch_snippet,
         snippets::archive_snippet,
         // Auth
-        auth::login,
+        auth::generate_tokens,
+        auth::get_tokens,
         // Users
         users::create_user,
         users::get_user,
@@ -58,7 +59,7 @@ impl ApiDoc {
 
 pub fn build_router(state: AppState) -> axum::Router<AppState> {
     axum::Router::new()
-        .merge(auth::declare_routes())
+        .merge(auth::declare_routes(state.clone()))
         .merge(setup_swagger_ui())
         .merge(redirect::declare_routes())
         .merge(qr::declare_routes())

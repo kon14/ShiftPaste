@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 use crate::common::state::AppState;
 use crate::domain as dmn;
-use crate::domain::types::{JsonWebToken, User};
+use crate::domain::types::{JsonWebTokenData, User};
 use crate::prelude::*;
 
 /// Retrieves a User.
@@ -29,7 +29,7 @@ pub async fn get_user(
     State(state): State<AppState>,
     Path(user_id): Path<Uuid>,
     Extension(auth_user): Extension<User>,
-    Extension(_auth_token): Extension<JsonWebToken>,
+    Extension(_auth_token): Extension<JsonWebTokenData>,
 ) -> Result<Json<User>, AppError> {
     let AppState { db } = state;
 

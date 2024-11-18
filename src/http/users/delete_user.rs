@@ -4,7 +4,7 @@ use uuid::Uuid;
 
 use crate::common::state::AppState;
 use crate::domain as dmn;
-use crate::domain::types::{JsonWebToken, User};
+use crate::domain::types::{JsonWebTokenData, User};
 use crate::prelude::*;
 
 /// Deletes a User.
@@ -27,7 +27,7 @@ pub async fn delete_user(
     State(state): State<AppState>,
     Path(user_id): Path<Uuid>,
     Extension(auth_user): Extension<User>,
-    Extension(_auth_token): Extension<JsonWebToken>,
+    Extension(_auth_token): Extension<JsonWebTokenData>,
 ) -> Result<String, AppError> {
     let AppState { db } = state;
 

@@ -5,7 +5,7 @@ use axum::response::Response;
 
 use crate::common::state::AppState;
 use crate::db;
-use crate::domain::types::{JsonWebToken, UniqueUserIdentifier};
+use crate::domain::types::{JsonWebTokenData, UniqueUserIdentifier};
 use crate::prelude::*;
 
 pub async fn auth_middleware(
@@ -17,7 +17,7 @@ pub async fn auth_middleware(
     const UNAUTHORIZED_ERR_STR: &str = "Failed to authenticate user!";
 
     let (mut parts, body) = request.into_parts();
-    let token = JsonWebToken::from_request_parts(&mut parts, &state)
+    let token = JsonWebTokenData::from_request_parts(&mut parts, &state)
         .await
         .map_err(|err| err.reword(UNAUTHORIZED_ERR_STR.to_string()))?;
 

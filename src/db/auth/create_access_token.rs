@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 use sqlx::PgExecutor;
 use uuid::Uuid;
 
-use crate::db::types::AccessTokenDb;
+use crate::domain::types::AccessToken;
 use crate::prelude::*;
 
 pub struct CreateAccessTokenDbParams {
@@ -14,11 +14,11 @@ pub struct CreateAccessTokenDbParams {
 pub async fn create_access_token<'a>(
     db: impl PgExecutor<'a>,
     data: CreateAccessTokenDbParams,
-) -> Result<AccessTokenDb, AppError> {
+) -> Result<AccessToken, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to create access token!";
 
     sqlx::query_as!(
-        AccessTokenDb,
+        AccessToken,
         r#"
         INSERT INTO access_tokens (
             user_id,

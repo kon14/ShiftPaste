@@ -1,13 +1,12 @@
 use sqlx::PgExecutor;
 
-use crate::db::types::AccessTokenDb;
-use crate::domain::types::UniqueAccessTokenIdentifier;
+use crate::domain::types::{AccessToken, UniqueAccessTokenIdentifier};
 use crate::prelude::*;
 
 pub async fn get_access_token<'a>(
     db: impl PgExecutor<'a>,
     access_token_id: UniqueAccessTokenIdentifier,
-) -> Result<AccessTokenDb, AppError> {
+) -> Result<AccessToken, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve access token!";
 
     let (id, jwt) = match access_token_id {
@@ -15,7 +14,7 @@ pub async fn get_access_token<'a>(
         UniqueAccessTokenIdentifier::Jwt(ref jwt) => (None, Some(jwt)),
     };
     sqlx::query_as!(
-        AccessTokenDb,
+        AccessToken,
         r#"
         SELECT
             id,

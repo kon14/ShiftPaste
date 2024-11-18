@@ -8,7 +8,7 @@ use utoipa::ToSchema;
 use crate::common::params::PaginationParams;
 use crate::common::state::AppState;
 use crate::domain as dmn;
-use crate::domain::types::{JsonWebToken, User};
+use crate::domain::types::{JsonWebTokenData, User};
 use crate::prelude::*;
 
 #[derive(Serialize, ToSchema)]
@@ -36,7 +36,7 @@ pub async fn get_users(
     State(state): State<AppState>,
     Query(pagination): Query<PaginationParams>,
     Extension(auth_user): Extension<User>,
-    Extension(_auth_token): Extension<JsonWebToken>,
+    Extension(_auth_token): Extension<JsonWebTokenData>,
 ) -> Result<Json<GetUsersHttpResponse>, AppError> {
     let AppState { db } = state;
 

@@ -2,23 +2,25 @@ use sqlx::{PgPool, Postgres, Transaction};
 
 use crate::db;
 use crate::domain as dmn;
-use crate::domain::types::{Email, JsonWebToken, UniqueUserIdentifier};
+use crate::domain::types::{
+    AccessToken, Email, JsonWebTokenData, RefreshToken, UniqueUserIdentifier,
+};
 use crate::prelude::*;
 
-pub struct UserLoginDmnParams {
+pub struct GenerateAuthTokensDmnParams {
     pub email: Email,
     pub password: String,
 }
 
-pub struct UserLoginDmnResponse {
-    pub access_token: String,
-    pub refresh_token: String,
+pub struct GenerateAuthTokensDmnResponse {
+    pub access_token: AccessToken,
+    pub refresh_token: RefreshToken,
 }
 
-pub async fn login(
+pub async fn generate_tokens(
     db: &PgPool,
-    payload: UserLoginDmnParams,
-) -> Result<UserLoginDmnResponse, AppError> {
+    payload: GenerateAuthTokensDmnParams,
+) -> Result<GenerateAuthTokensDmnResponse, AppError> {
     const UNAUTHORIZED_ERR_STR: &str = "Failed to authenticate user!";
 
     let user = db::users::get_user(db, UniqueUserIdentifier::Email(payload.email))
@@ -32,8 +34,8 @@ pub async fn login(
             AppError::unauthorized_with_private(UNAUTHORIZED_ERR_STR, err.to_string())
         })?;
 
-    let access_token = JsonWebToken::new_access(user.id);
-    let refresh_token = JsonWebToken::new_refresh(user.id);
+    let access_token = JsonWebTokenData::new_access(user.id);
+    let refresh_token = JsonWebTokenData::new_refresh(user.id);
     let access_token_jwt = access_token.encode()?;
     let refresh_token_jwt = refresh_token.encode()?;
 
@@ -58,8 +60,8 @@ pub async fn login(
         .await
         .map_err(|err| AppError::internal_with_private(UNAUTHORIZED_ERR_STR, err.to_string()))?;
 
-    Ok(UserLoginDmnResponse {
-        access_token: access_token_db.jwt,
-        refresh_token: refresh_token_db.jwt,
+    Ok(GenerateAuthTokensDmnResponse {
+        access_token: access_token_db,
+        refresh_token: refresh_token_db,
     })
 }

@@ -12,31 +12,33 @@ use std::pin::Pin;
 use uuid::Uuid;
 
 use super::{
-    JsonWebToken, JsonWebTokenVariant, UniqueAccessTokenIdentifier, UniqueRefreshTokenIdentifier,
+    AccessToken, JsonWebTokenData, JsonWebTokenDataVariant, RefreshToken,
+    UniqueAccessTokenIdentifier, UniqueRefreshTokenIdentifier,
 };
 use crate::common;
 use crate::common::state::AppState;
 use crate::domain as dmn;
+use crate::domain::types::{AccessTokenPublic, RefreshTokenPublic};
 use crate::prelude::*;
 
-impl JsonWebToken {
+impl JsonWebTokenData {
     pub fn new_access(user_id: Uuid) -> Self {
         let expiry_secs = common::utils::get_auth_access_token_duration_secs();
         let expiry = Utc::now() + Duration::seconds(expiry_secs as i64);
-        JsonWebToken {
+        JsonWebTokenData {
             user_id,
             expires_at: expiry,
-            variant: JsonWebTokenVariant::AccessToken,
+            variant: JsonWebTokenDataVariant::AccessToken,
         }
     }
 
     pub fn new_refresh(user_id: Uuid) -> Self {
         let expiry_secs = common::utils::get_auth_refresh_token_duration_secs();
         let expiry = Utc::now() + Duration::seconds(expiry_secs as i64);
-        JsonWebToken {
+        JsonWebTokenData {
             user_id,
             expires_at: expiry,
-            variant: JsonWebTokenVariant::AccessToken,
+            variant: JsonWebTokenDataVariant::AccessToken,
         }
     }
 
@@ -53,9 +55,9 @@ impl JsonWebToken {
         Ok(token)
     }
 
-    pub fn decode(token: &str) -> Result<JsonWebToken, AppError> {
+    pub fn decode(token: &str) -> Result<JsonWebTokenData, AppError> {
         let jwt_secret = common::utils::get_auth_jwt_secret();
-        let token_data = decode::<JsonWebToken>(
+        let token_data = decode::<JsonWebTokenData>(
             &token,
             &DecodingKey::from_secret(jwt_secret.as_ref()),
             &Validation::default(),
@@ -67,7 +69,7 @@ impl JsonWebToken {
     }
 }
 
-impl FromRequestParts<AppState> for JsonWebToken {
+impl FromRequestParts<AppState> for JsonWebTokenData {
     type Rejection = AppError;
 
     fn from_request_parts<'life0, 'life1, 'async_trait>(
@@ -121,6 +123,47 @@ impl fmt::Display for UniqueRefreshTokenIdentifier {
             UniqueRefreshTokenIdentifier::AccessTokenId(access_token_id) => {
                 write!(f, "{}", access_token_id)
             }
+        }
+    }
+}
+
+impl From<AccessToken> for JsonWebTokenData {
+    fn from(token: AccessToken) -> Self {
+        JsonWebTokenData {
+            user_id: token.user_id,
+            expires_at: token.expires_at,
+            variant: JsonWebTokenDataVariant::AccessToken,
+        }
+    }
+}
+
+impl From<RefreshToken> for JsonWebTokenData {
+    fn from(token: RefreshToken) -> Self {
+        JsonWebTokenData {
+            user_id: token.user_id,
+            expires_at: token.expires_at,
+            variant: JsonWebTokenDataVariant::RefreshToken,
+        }
+    }
+}
+
+impl From<AccessToken> for AccessTokenPublic {
+    fn from(token: AccessToken) -> Self {
+        AccessTokenPublic {
+            id: token.id,
+            user_id: token.user_id,
+            expires_at: token.expires_at,
+        }
+    }
+}
+
+impl From<RefreshToken> for RefreshTokenPublic {
+    fn from(token: RefreshToken) -> Self {
+        RefreshTokenPublic {
+            id: token.id,
+            user_id: token.user_id,
+            access_token_id: token.access_token_id,
+            expires_at: token.expires_at,
         }
     }
 }

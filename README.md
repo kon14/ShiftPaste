@@ -59,7 +59,6 @@ xdg-open "http://localhost:4000/swagger/"
 | `AUTH_ACCESS_TOKEN_DURATION_SECS`  | Duration for authentication access token validity (in seconds).                                                                                                                                                      | `False`  |   `5 * 60` (5 minutes)   |             `300`              |
 | `AUTH_REFRESH_TOKEN_DURATION_SECS` | Duration for authentication refresh token validity (in seconds).                                                                                                                                                     | `False`  |  `24 * 60 * 60` (1 day)  |            `86400`             |
 
-
 ---
 
 ## Local Development 👨🏻‍🔬 <a name="local-dev"></a>

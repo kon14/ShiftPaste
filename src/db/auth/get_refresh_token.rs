@@ -1,13 +1,12 @@
 use sqlx::PgExecutor;
 
-use crate::db::types::RefreshTokenDb;
-use crate::domain::types::UniqueRefreshTokenIdentifier;
+use crate::domain::types::{RefreshToken, UniqueRefreshTokenIdentifier};
 use crate::prelude::*;
 
 pub async fn get_refresh_token<'a>(
     db: impl PgExecutor<'a>,
     refresh_token_id: UniqueRefreshTokenIdentifier,
-) -> Result<RefreshTokenDb, AppError> {
+) -> Result<RefreshToken, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to retrieve refresh token!";
 
     let (id, jwt, access_token_id) = match refresh_token_id {
@@ -18,7 +17,7 @@ pub async fn get_refresh_token<'a>(
         }
     };
     sqlx::query_as!(
-        RefreshTokenDb,
+        RefreshToken,
         r#"
         SELECT
             id,
