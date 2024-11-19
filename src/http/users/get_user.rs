@@ -18,6 +18,7 @@ use crate::prelude::*;
     ),
     responses(
         (status = 200, description = "Success", body = User),
+        (status = 401, description = "Unauthorized"),
         (status = 404, description = "Not Found"),
         (status = 500, description = "Failure"),
     ),

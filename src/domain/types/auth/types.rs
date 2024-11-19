@@ -6,6 +6,8 @@ use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JsonWebTokenData {
+    #[serde(rename = "tokenId")]
+    pub id: Uuid,
     #[serde(rename = "sub")]
     pub user_id: Uuid,
     #[serde(rename = "exp", with = "chrono::serde::ts_seconds")]
@@ -14,7 +16,7 @@ pub struct JsonWebTokenData {
     pub variant: JsonWebTokenDataVariant,
 }
 
-#[derive(Debug, Clone, Type, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Type, Serialize, Deserialize)]
 #[sqlx(type_name = "auth_token_variant")]
 pub enum JsonWebTokenDataVariant {
     #[serde(rename = "access")]
@@ -51,7 +53,7 @@ pub struct RefreshToken {
     pub expires_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, ToSchema)]
 pub struct AuthTokenPair {
     pub access_token: AccessToken,
     pub refresh_token: RefreshToken,

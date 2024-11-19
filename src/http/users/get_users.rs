@@ -26,6 +26,7 @@ pub struct GetUsersHttpResponse {
     ),
     responses(
         (status = 200, description = "Success", body = GetUsersHttpResponse),
+        (status = 401, description = "Unauthorized"),
         (status = 500, description = "Failure"),
     ),
     security(

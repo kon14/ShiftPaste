@@ -1,6 +1,7 @@
-use crate::prelude::*;
 use sqlx::PgExecutor;
 use uuid::Uuid;
+
+use crate::prelude::*;
 
 pub async fn delete_user<'a>(db: impl PgExecutor<'a>, user_id: Uuid) -> Result<(), AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to delete user!";

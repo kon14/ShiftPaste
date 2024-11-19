@@ -4,15 +4,15 @@ use uuid::Uuid;
 
 use crate::common::state::AppState;
 use crate::domain as dmn;
-use crate::domain::types::{JsonWebTokenData, User};
+use crate::domain::types::{JsonWebTokenData, UniqueAccessTokenIdentifier, User};
 use crate::prelude::*;
 
-/// Deletes a User.
+/// Revokes an auth token pair.
 #[utoipa::path(
     delete,
-    path = "/users/{user_id}",
+    path = "/auth/tokens/{access_token_id}",
     params(
-        ("user_id" = Uuid, Path),
+        ("access_token_id" = Uuid, Path),
     ),
     responses(
         (status = 200, description = "Success", body = String),
@@ -22,16 +22,18 @@ use crate::prelude::*;
     ),
     security(
         ("bearerAuth" = [])
-    )
+    ),
 )]
-pub async fn delete_user(
+pub async fn revoke_tokens(
     State(state): State<AppState>,
-    Path(user_id): Path<Uuid>,
+    Path(access_token_id): Path<Uuid>,
     Extension(auth_user): Extension<User>,
     Extension(_auth_token): Extension<JsonWebTokenData>,
 ) -> Result<String, AppError> {
     let AppState { db } = state;
 
-    dmn::users::delete_user(&db, user_id, auth_user.id).await?;
-    Ok(format!("User ({}) deleted successfully.", user_id))
+    let access_token_id = UniqueAccessTokenIdentifier::Id(access_token_id);
+    dmn::auth::revoke_tokens(&db, access_token_id, auth_user.id).await?;
+
+    Ok("Auth token pair deleted successfully.".to_string())
 }

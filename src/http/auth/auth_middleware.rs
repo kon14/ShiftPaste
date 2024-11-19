@@ -17,9 +17,7 @@ pub async fn auth_middleware(
     const UNAUTHORIZED_ERR_STR: &str = "Failed to authenticate user!";
 
     let (mut parts, body) = request.into_parts();
-    let token = JsonWebTokenData::from_request_parts(&mut parts, &state)
-        .await
-        .map_err(|err| err.reword(UNAUTHORIZED_ERR_STR.to_string()))?;
+    let token = JsonWebTokenData::from_request_parts(&mut parts, &state).await?;
 
     let user = db::users::get_user(&state.db, UniqueUserIdentifier::Id(token.user_id)).await?;
 

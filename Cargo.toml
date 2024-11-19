@@ -18,7 +18,7 @@ thiserror = "1.0.63"
 tokio = { version = "1.38.0", features = ["macros", "rt-multi-thread"] }
 utoipa = { version = "5.1.1", features = ["axum_extras", "preserve_order", "preserve_path_order", "uuid", "chrono"] }
 utoipa-swagger-ui = { version = "8.0.1", features = ["axum", "debug-embed"] }
-uuid = { version = "1.10.0", features = ["serde"] }
+uuid = { version = "1.10.0", features = ["serde", "v4"] }
 env_logger = "0.11.5"
 regex = "1.11.1"
 bcrypt = "0.15.1"

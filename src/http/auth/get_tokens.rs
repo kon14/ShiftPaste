@@ -26,11 +26,12 @@ struct GetAuthTokenHttpPair {
     path = "/auth/tokens",
     responses(
         (status = 200, description = "Success", body = GetAuthTokensHttpResponse),
+        (status = 401, description = "Unauthorized"),
         (status = 500, description = "Failure"),
     ),
     security(
         ("bearerAuth" = [])
-    )
+    ),
 )]
 pub async fn get_tokens(
     State(state): State<AppState>,

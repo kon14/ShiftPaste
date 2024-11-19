@@ -4,6 +4,8 @@ mod redirect;
 mod snippets;
 mod users;
 
+pub use auth::RENEW_TOKENS_PATH;
+
 use std::collections::BTreeMap;
 use utoipa::openapi::security::{Http, HttpAuthScheme, SecurityScheme};
 use utoipa::OpenApi;
@@ -22,8 +24,10 @@ use crate::common::state::AppState;
         snippets::patch_snippet,
         snippets::archive_snippet,
         // Auth
-        auth::generate_tokens,
+        auth::login,
+        auth::renew_tokens,
         auth::get_tokens,
+        auth::revoke_tokens,
         // Users
         users::create_user,
         users::get_user,

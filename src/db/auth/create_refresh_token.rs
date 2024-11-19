@@ -1,20 +1,11 @@
-use chrono::{DateTime, Utc};
 use sqlx::PgExecutor;
-use uuid::Uuid;
 
 use crate::domain::types::RefreshToken;
 use crate::prelude::*;
 
-pub struct CreateRefreshTokenDbParams {
-    pub user_id: Uuid,
-    pub jwt: String,
-    pub access_token_id: Uuid,
-    pub expires_at: DateTime<Utc>,
-}
-
 pub async fn create_refresh_token<'a>(
     db: impl PgExecutor<'a>,
-    data: CreateRefreshTokenDbParams,
+    data: RefreshToken,
 ) -> Result<RefreshToken, AppError> {
     const INTERNAL_ERR_STR: &str = "Failed to create refresh token!";
 
@@ -22,12 +13,13 @@ pub async fn create_refresh_token<'a>(
         RefreshToken,
         r#"
         INSERT INTO refresh_tokens (
+            id,
             user_id,
             access_token_id,
             jwt,
             expires_at
         )
-        VALUES ($1, $2, $3, $4)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING
             id,
             user_id,
@@ -35,6 +27,7 @@ pub async fn create_refresh_token<'a>(
             jwt,
             expires_at
         "#,
+        data.id,
         data.user_id,
         data.access_token_id,
         data.jwt,
